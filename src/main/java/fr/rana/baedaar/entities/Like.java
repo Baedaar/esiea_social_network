@@ -1,25 +1,46 @@
 package fr.rana.baedaar.entities;
 
+
 public class Like {
 
+    private Long id;
     private User user;
     private Comment comment;
     private Post post;
 
-    public Like(User user, Comment comment) {
-        this.user = user;
-        this.comment = comment;
-    }
-
+    // Constructeur pour un like sur un post (sans ID)
     public Like(User user, Post post) {
         this.user = user;
         this.post = post;
     }
 
-    public Like(User user, Comment comment, Post post) {
+    // Constructeur pour un like sur un commentaire (sans ID)
+    public Like(User user, Comment comment) {
         this.user = user;
         this.comment = comment;
+    }
+
+    // Constructeur pour un like sur un post (avec ID)
+    public Like(Long id, User user, Post post) {
+        this.id = id;
+        this.user = user;
         this.post = post;
+    }
+
+    // Constructeur pour un like sur un commentaire (avec ID)
+    public Like(Long id, User user, Comment comment) {
+        this.id = id;
+        this.user = user;
+        this.comment = comment;
+    }
+
+    // Getters et setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public User getUser() {

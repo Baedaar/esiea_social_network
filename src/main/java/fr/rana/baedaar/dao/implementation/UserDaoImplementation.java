@@ -34,7 +34,8 @@ public class UserDaoImplementation implements UserDao {
     }
 
     @Override
-    public void connection(String username, String password) throws SQLException {
+    public User connection(String username, String password) throws SQLException {
+        User user = null;
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(CHECK_CREDENTIAL)) {
 
@@ -42,13 +43,24 @@ public class UserDaoImplementation implements UserDao {
             preparedStatement.setString(2, password);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                resultSet.next();
+                if (resultSet.next()) {
+                    Long userId = resultSet.getLong("id");
+                    String retrievedUsername = resultSet.getString("username");
+                    String retrievedPassword = resultSet.getString("password");
+
+                    user = new User(userId, retrievedUsername, retrievedPassword);
+                } else {
+                    System.out.println("Utilisateur non trouvé avec les informations fournies.");
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new SQLException("Error checking user credentials");
+            throw new SQLException("Erreur lors de la vérification des informations d'identification de l'utilisateur.");
         }
+
+        return user;
     }
+
 
     @Override
     public void updateUser(String username, String password) throws SQLException {

@@ -1,17 +1,42 @@
 package fr.rana.baedaar.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
 
+    private Long id;
     private String userName;
     private String password;
     private List<Post> posts;
     private List<Like> likes;
 
+    // Constructeur avec ID
+    public User(Long id, String userName, String password) {
+        this.id = id;
+        this.userName = userName;
+        this.password = password;
+        this.posts = new ArrayList<>();
+        this.likes = new ArrayList<>();
+    }
+
+    // Constructeur sans ID
+    public User(String userName, String password, List<Post> posts, List<Like> likes) {
+        this.userName = userName;
+        this.password = password;
+        this.posts = posts != null ? posts : new ArrayList<>();
+        this.likes = likes != null ? likes : new ArrayList<>();
+    }
+
     public User(String userName, String password) {
         this.userName = userName;
         this.password = password;
+        this.posts = new ArrayList<>();
+        this.likes = new ArrayList<>();
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public List<Post> getPosts() {
@@ -19,7 +44,7 @@ public class User {
     }
 
     public void setPosts(List<Post> posts) {
-        this.posts = posts;
+        this.posts = posts != null ? posts : new ArrayList<>();
     }
 
     public List<Like> getLikes() {
@@ -27,14 +52,7 @@ public class User {
     }
 
     public void setLikes(List<Like> likes) {
-        this.likes = likes;
-    }
-
-    public User(String userName, String password, List<Post> posts, List<Like> likes) {
-        this.userName = userName;
-        this.password = password;
-        this.posts = posts;
-        this.likes = likes;
+        this.likes = likes != null ? likes : new ArrayList<>();
     }
 
     public String getUserName() {
@@ -45,11 +63,15 @@ public class User {
         this.userName = userName;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

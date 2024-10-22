@@ -1,17 +1,37 @@
 package fr.rana.baedaar.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Comment {
 
+    private Long id;
     private User user;
     private List<Like> likes;
     private Post post;
+    private String content;
 
-    public Comment(User user, List<Like> likes, Post post) {
+    // Constructeur principal avec toutes les données
+    public Comment(Long id, User user, String content, Post post, List<Like> likes) {
+        this.id = id;
         this.user = user;
-        this.likes = likes;
+        this.content = content;
         this.post = post;
+        this.likes = likes != null ? likes : new ArrayList<>();
+    }
+
+    // Constructeur simplifié sans likes
+    public Comment(Long id, User user, String content, Post post) {
+        this(id, user, content, post, null);
+    }
+
+    // Getters et Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public User getUser() {
@@ -36,5 +56,13 @@ public class Comment {
 
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

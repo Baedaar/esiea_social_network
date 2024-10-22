@@ -7,8 +7,8 @@ import java.sql.SQLException;
 
 public interface CommentDao {
 
-    void createComment(String content, Post post) throws SQLException;
-    void updateComment(String content) throws SQLException;
+    Comment createComment(String content, Post post) throws SQLException;
+    void updateComment(String content, Long commentId) throws SQLException;
     void deleteComment(Comment comment) throws SQLException;
 
 }

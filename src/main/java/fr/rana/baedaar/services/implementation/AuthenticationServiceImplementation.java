@@ -1,7 +1,6 @@
 package fr.rana.baedaar.services.implementation;
 
 import fr.rana.baedaar.dao.UserDao;
-import fr.rana.baedaar.dao.implementation.UserDaoImplementation;
 import fr.rana.baedaar.entities.User;
 import fr.rana.baedaar.services.AuthenticationService;
 
@@ -9,16 +8,20 @@ import java.sql.SQLException;
 
 public class AuthenticationServiceImplementation implements AuthenticationService {
 
-    private final UserDao userDao = new UserDaoImplementation();
+    private final UserDao userDao;
+
+    public AuthenticationServiceImplementation(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Override
     public User connection(String userName, String password) {
-        User user = new User(userName, password);
+        User authenticatedUser = null;
         try {
-            userDao.connection(userName, password);
+            authenticatedUser = userDao.connection(userName, password);
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Erreur lors de la tentative de connexion de l'utilisateur : " + e.getMessage());
         }
-        return user;
+        return authenticatedUser;
     }
 }
