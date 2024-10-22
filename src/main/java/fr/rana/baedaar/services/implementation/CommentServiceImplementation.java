@@ -5,12 +5,16 @@ import fr.rana.baedaar.entities.Comment;
 import fr.rana.baedaar.entities.Post;
 import fr.rana.baedaar.entities.User;
 import fr.rana.baedaar.services.CommentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 
+@Service
 public class CommentServiceImplementation implements CommentService {
 
-    private final CommentDao commentDao;
+    @Autowired
+    private CommentDao commentDao;
 
     public CommentServiceImplementation(CommentDao commentDao) {
         this.commentDao = commentDao;

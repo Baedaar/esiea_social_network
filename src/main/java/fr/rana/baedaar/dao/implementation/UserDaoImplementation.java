@@ -3,12 +3,14 @@ package fr.rana.baedaar.dao.implementation;
 import fr.rana.baedaar.dao.UserDao;
 import fr.rana.baedaar.database.DatabaseConnection;
 import fr.rana.baedaar.entities.User;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Repository
 public class UserDaoImplementation implements UserDao {
 
     private static final String INSERT_USER_SQL = "INSERT INTO users (username, password) VALUES (?, ?)";

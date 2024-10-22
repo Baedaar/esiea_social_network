@@ -35,6 +35,9 @@ public class User {
         this.likes = new ArrayList<>();
     }
 
+    public User() {
+    }
+
     public Long getId() {
         return id;
     }

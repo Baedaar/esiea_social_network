@@ -3,12 +3,16 @@ package fr.rana.baedaar.services.implementation;
 import fr.rana.baedaar.dao.UserDao;
 import fr.rana.baedaar.entities.User;
 import fr.rana.baedaar.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 
+@Service
 public class UserServiceImplementation implements UserService {
 
-    private final UserDao userDao;
+    @Autowired
+    private UserDao userDao;
 
     public UserServiceImplementation(UserDao userDao) {
         this.userDao = userDao;

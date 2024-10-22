@@ -6,12 +6,16 @@ import fr.rana.baedaar.entities.Like;
 import fr.rana.baedaar.entities.Post;
 import fr.rana.baedaar.entities.User;
 import fr.rana.baedaar.services.LikeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 
+@Service
 public class LikeServiceImplementation implements LikeService {
 
-    private final LikeDao likeDao;
+    @Autowired
+    private LikeDao likeDao;
 
     public LikeServiceImplementation(LikeDao likeDao) {
         this.likeDao = likeDao;

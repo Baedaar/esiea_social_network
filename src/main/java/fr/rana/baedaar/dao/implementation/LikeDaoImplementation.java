@@ -5,11 +5,13 @@ import fr.rana.baedaar.database.DatabaseConnection;
 import fr.rana.baedaar.entities.Comment;
 import fr.rana.baedaar.entities.Post;
 import fr.rana.baedaar.entities.User;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+@Repository
 public class LikeDaoImplementation implements LikeDao {
 
     private static final String INSERT_LIKE_POST_SQL = "INSERT INTO likes (user_id, post_id) VALUES (?, ?)";

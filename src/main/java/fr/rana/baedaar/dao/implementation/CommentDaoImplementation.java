@@ -4,12 +4,14 @@ import fr.rana.baedaar.dao.CommentDao;
 import fr.rana.baedaar.database.DatabaseConnection;
 import fr.rana.baedaar.entities.Comment;
 import fr.rana.baedaar.entities.Post;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Repository
 public class CommentDaoImplementation implements CommentDao {
 
     @Override

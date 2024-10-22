@@ -4,12 +4,16 @@ import fr.rana.baedaar.dao.PostDao;
 import fr.rana.baedaar.entities.Post;
 import fr.rana.baedaar.entities.User;
 import fr.rana.baedaar.services.PostService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 
+@Service
 public class PostServiceImplementation implements PostService {
 
-    private final PostDao postDao;
+    @Autowired
+    private PostDao postDao;
 
     public PostServiceImplementation(PostDao postDao) {
         this.postDao = postDao;
