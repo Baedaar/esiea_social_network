@@ -205,4 +205,26 @@ public class PostRepositoryImplementation implements PostRepository {
         }
         return likes;
     }
+
+    @Override
+    public List<Post> getAllPosts() throws SQLException {
+        String GET_ALL_POSTS = "SELECT * FROM posts";
+        List<Post> posts = new ArrayList<>();
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_POSTS))  {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Long id = resultSet.getLong("id");
+                    Long userId = resultSet.getLong("user_id");
+                    String content = resultSet.getString("content");
+                    User user = getUserById(userId);
+                    List<Comment> comments = getCommentsByPostId(id);
+                    List<Like> likes = getLikesByPostId(id);
+                    posts.add(new Post(user, content, comments, likes));
+                }
+        }
+
+        return posts;
+    }
+}
 }

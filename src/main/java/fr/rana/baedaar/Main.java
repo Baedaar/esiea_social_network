@@ -68,6 +68,10 @@ public class Main {
                     Like postLike = likeService.addLike(createdPost, connectedUser);
                     System.out.println("Like ajouté avec succès sur le post.");
 
+                    // Étape 7 : liste de tt les posts
+                    System.out.println("Liste de tous les posts..." + postService.getAllPosts().toString());
+
+
                 } else {
                     System.out.println("Échec de la connexion.");
                 }
