@@ -46,18 +46,24 @@ public class PostRepositoryImplementation implements PostRepository {
         String sql = "SELECT * FROM posts WHERE id = ?";
 
         try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setLong(1, id);
 
-            if (resultSet.next()) {
-                Long userId = resultSet.getLong("user_id");
-                String content = resultSet.getString("content");
-                User user = getUserById(userId);
-                List<Comment> comments = getCommentsByPostId(id);
-                List<Like> likes = getLikesByPostId(id);
-                return new Post(user, content, comments, likes);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    Long userId = resultSet.getLong("user_id");
+                    String content = resultSet.getString("content");
+                    User user = getUserById(userId);
+
+                    List<Comment> comments = getCommentsByPostId(id);
+                    // Pass the post instance directly to likes, avoiding recursive calls
+                    Post post = new Post(user, content, comments, new ArrayList<>());
+                    List<Like> likes = getLikesByPostId(id, post);
+                    post.setLikes(likes);
+
+                    return post;
+                }
             }
         }
         return null;
@@ -124,6 +130,7 @@ public class PostRepositoryImplementation implements PostRepository {
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setLong(1, postId);
+
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     Long commentId = resultSet.getLong("id");
@@ -134,8 +141,8 @@ public class PostRepositoryImplementation implements PostRepository {
                     String password = resultSet.getString("password");
                     User user = new User(userId, userName, password);
 
-                    Post post = getPostById(postId);
-                    comments.add(new Comment(commentId, user, content, post, new ArrayList<>()));
+                    // Instead of calling getPostById, pass the post ID directly
+                    comments.add(new Comment(commentId, user, content, null, new ArrayList<>()));
                 }
             }
         }
@@ -173,7 +180,7 @@ public class PostRepositoryImplementation implements PostRepository {
 
 
 
-    private List<Like> getLikesByPostId(Long postId) throws SQLException {
+    private List<Like> getLikesByPostId(Long postId, Post post) throws SQLException {
         String sql = "SELECT l.id, l.user_id, u.username, u.password, l.comment_id " +
                 "FROM likes l JOIN users u ON l.user_id = u.id WHERE l.post_id = ?";
         List<Like> likes = new ArrayList<>();
@@ -185,20 +192,18 @@ public class PostRepositoryImplementation implements PostRepository {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     Long likeId = resultSet.getLong("id");
-
                     Long userId = resultSet.getLong("user_id");
                     String userName = resultSet.getString("username");
                     String password = resultSet.getString("password");
                     User user = new User(userId, userName, password);
 
                     Long commentId = resultSet.getLong("comment_id");
-                    Comment comment = null;
+
                     if (commentId != 0) {
-                        comment = getCommentById(commentId);
-                        likes.add(new Like(likeId, user, comment));
+                        Comment comment = getCommentById(commentId);
+                        likes.add(new Like(likeId, user, comment)); // Use Comment constructor
                     } else {
-                        Post post = getPostById(postId);
-                        likes.add(new Like(likeId, user, post));
+                        likes.add(new Like(likeId, user, post)); // Use Post constructor
                     }
                 }
             }
@@ -211,20 +216,28 @@ public class PostRepositoryImplementation implements PostRepository {
         String GET_ALL_POSTS = "SELECT * FROM posts";
         List<Post> posts = new ArrayList<>();
         try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_POSTS))  {
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_POSTS)) {
+
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     Long id = resultSet.getLong("id");
                     Long userId = resultSet.getLong("user_id");
                     String content = resultSet.getString("content");
+
                     User user = getUserById(userId);
                     List<Comment> comments = getCommentsByPostId(id);
-                    List<Like> likes = getLikesByPostId(id);
-                    posts.add(new Post(user, content, comments, likes));
-                }
-        }
 
+                    // Create a temporary Post instance to use with likes
+                    Post post = new Post(user, content, comments, new ArrayList<>());
+                    List<Like> likes = getLikesByPostId(id, post);
+
+                    // Set likes to the post after fetching them
+                    post.setLikes(likes);
+
+                    posts.add(post);
+                }
+            }
+        }
         return posts;
     }
-}
 }
