@@ -1,6 +1,6 @@
-package fr.rana.baedaar.dao.implementation;
+package fr.rana.baedaar.repository.implementation;
 
-import fr.rana.baedaar.dao.PostDao;
+import fr.rana.baedaar.repository.PostRepository;
 import fr.rana.baedaar.database.DatabaseConnection;
 import fr.rana.baedaar.entities.Comment;
 import fr.rana.baedaar.entities.Like;
@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostDaoImplementation implements PostDao {
+public class PostRepositoryImplementation implements PostRepository {
 
     @Override
     public void createPost(Post post) throws SQLException {

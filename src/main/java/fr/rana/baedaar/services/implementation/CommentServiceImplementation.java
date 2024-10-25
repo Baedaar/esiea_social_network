@@ -1,6 +1,6 @@
 package fr.rana.baedaar.services.implementation;
 
-import fr.rana.baedaar.dao.CommentDao;
+import fr.rana.baedaar.repository.CommentRepository;
 import fr.rana.baedaar.entities.Comment;
 import fr.rana.baedaar.entities.Post;
 import fr.rana.baedaar.entities.User;
@@ -10,16 +10,16 @@ import java.sql.SQLException;
 
 public class CommentServiceImplementation implements CommentService {
 
-    private final CommentDao commentDao;
+    private final CommentRepository commentRepository;
 
-    public CommentServiceImplementation(CommentDao commentDao) {
-        this.commentDao = commentDao;
+    public CommentServiceImplementation(CommentRepository commentRepository) {
+        this.commentRepository = commentRepository;
     }
 
     @Override
     public Comment createComment(User user, Post post, String content) {
         try {
-            Comment createdComment = commentDao.createComment(content, post);
+            Comment createdComment = commentRepository.createComment(content, post);
 
             if (createdComment != null) {
                 System.out.println("Commentaire créé avec succès pour l'utilisateur " + user.getUserName() + " sur le post ID: " + post.getId() + ". ID du commentaire : " + createdComment.getId());
@@ -37,7 +37,7 @@ public class CommentServiceImplementation implements CommentService {
     @Override
     public void updateComment(Long commentId, String newContent) {
         try {
-            commentDao.updateComment(newContent, commentId);
+            commentRepository.updateComment(newContent, commentId);
             System.out.println("Commentaire avec ID: " + commentId + " mis à jour avec succès.");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -48,7 +48,7 @@ public class CommentServiceImplementation implements CommentService {
     @Override
     public void deleteComment(Comment comment) {
         try {
-            commentDao.deleteComment(comment);
+            commentRepository.deleteComment(comment);
             System.out.println("Commentaire avec ID: " + comment.getId() + " supprimé avec succès.");
         } catch (SQLException e) {
             e.printStackTrace();

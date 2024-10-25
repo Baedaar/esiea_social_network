@@ -1,6 +1,6 @@
-package fr.rana.baedaar.dao.implementation;
+package fr.rana.baedaar.repository.implementation;
 
-import fr.rana.baedaar.dao.CommentDao;
+import fr.rana.baedaar.repository.CommentRepository;
 import fr.rana.baedaar.database.DatabaseConnection;
 import fr.rana.baedaar.entities.Comment;
 import fr.rana.baedaar.entities.Post;
@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CommentDaoImplementation implements CommentDao {
+public class CommentRepositoryImplementation implements CommentRepository {
 
     @Override
     public Comment createComment(String content, Post post) throws SQLException {

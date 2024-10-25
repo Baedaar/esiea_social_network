@@ -1,6 +1,6 @@
-package fr.rana.baedaar.dao.implementation;
+package fr.rana.baedaar.repository.implementation;
 
-import fr.rana.baedaar.dao.LikeDao;
+import fr.rana.baedaar.repository.LikeRepository;
 import fr.rana.baedaar.database.DatabaseConnection;
 import fr.rana.baedaar.entities.Comment;
 import fr.rana.baedaar.entities.Post;
@@ -10,7 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class LikeDaoImplementation implements LikeDao {
+public class LikeRepositoryImplementation implements LikeRepository {
 
     private static final String INSERT_LIKE_POST_SQL = "INSERT INTO likes (user_id, post_id) VALUES (?, ?)";
     private static final String INSERT_LIKE_COMMENT_SQL = "INSERT INTO likes (user_id, comment_id) VALUES (?, ?)";

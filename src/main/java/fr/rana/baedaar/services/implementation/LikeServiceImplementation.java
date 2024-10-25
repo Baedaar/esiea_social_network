@@ -1,6 +1,6 @@
 package fr.rana.baedaar.services.implementation;
 
-import fr.rana.baedaar.dao.LikeDao;
+import fr.rana.baedaar.repository.LikeRepository;
 import fr.rana.baedaar.entities.Comment;
 import fr.rana.baedaar.entities.Like;
 import fr.rana.baedaar.entities.Post;
@@ -11,16 +11,16 @@ import java.sql.SQLException;
 
 public class LikeServiceImplementation implements LikeService {
 
-    private final LikeDao likeDao;
+    private final LikeRepository likeRepository;
 
-    public LikeServiceImplementation(LikeDao likeDao) {
-        this.likeDao = likeDao;
+    public LikeServiceImplementation(LikeRepository likeRepository) {
+        this.likeRepository = likeRepository;
     }
 
     @Override
     public Like addLike(Post post, User user) {
         try {
-            likeDao.createLike(post, user);
+            likeRepository.createLike(post, user);
             return new Like(user, post);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -31,7 +31,7 @@ public class LikeServiceImplementation implements LikeService {
     @Override
     public Like addLike(Comment comment, User user) {
         try {
-            likeDao.createLike(comment, user);
+            likeRepository.createLike(comment, user);
             return new Like(user, comment);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -43,9 +43,9 @@ public class LikeServiceImplementation implements LikeService {
     public void removeLike(Like like) {
         try {
             if (like.getPost() != null) {
-                likeDao.removeLike(like.getPost(), like.getUser());
+                likeRepository.removeLike(like.getPost(), like.getUser());
             } else if (like.getComment() != null) {
-                likeDao.removeLike(like.getComment(), like.getUser());
+                likeRepository.removeLike(like.getComment(), like.getUser());
             }
         } catch (SQLException e) {
             e.printStackTrace();

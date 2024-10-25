@@ -1,6 +1,6 @@
-package fr.rana.baedaar.dao.implementation;
+package fr.rana.baedaar.repository.implementation;
 
-import fr.rana.baedaar.dao.UserDao;
+import fr.rana.baedaar.repository.UserRepository;
 import fr.rana.baedaar.database.DatabaseConnection;
 import fr.rana.baedaar.entities.User;
 
@@ -9,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDaoImplementation implements UserDao {
+public class UserRepositoryImplementation implements UserRepository {
 
     private static final String INSERT_USER_SQL = "INSERT INTO users (username, password) VALUES (?, ?)";
     private static final String CHECK_CREDENTIAL = "SELECT * FROM users WHERE username = ? AND password = ?";

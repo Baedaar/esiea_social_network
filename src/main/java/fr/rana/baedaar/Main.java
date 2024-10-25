@@ -1,9 +1,9 @@
 package fr.rana.baedaar;
 
-import fr.rana.baedaar.dao.implementation.CommentDaoImplementation;
-import fr.rana.baedaar.dao.implementation.LikeDaoImplementation;
-import fr.rana.baedaar.dao.implementation.PostDaoImplementation;
-import fr.rana.baedaar.dao.implementation.UserDaoImplementation;
+import fr.rana.baedaar.repository.implementation.CommentRepositoryImplementation;
+import fr.rana.baedaar.repository.implementation.LikeRepositoryImplementation;
+import fr.rana.baedaar.repository.implementation.PostRepositoryImplementation;
+import fr.rana.baedaar.repository.implementation.UserRepositoryImplementation;
 import fr.rana.baedaar.database.DatabaseConnection;
 import fr.rana.baedaar.entities.Comment;
 import fr.rana.baedaar.entities.Like;
@@ -21,10 +21,10 @@ public class Main {
                 System.out.println("Connexion réussie !");
 
                 // Initialisation du DAO
-                UserDaoImplementation userDao = new UserDaoImplementation();
-                PostDaoImplementation postDao = new PostDaoImplementation();
-                CommentDaoImplementation commentDao = new CommentDaoImplementation();
-                LikeDaoImplementation likeDao = new LikeDaoImplementation();
+                UserRepositoryImplementation userDao = new UserRepositoryImplementation();
+                PostRepositoryImplementation postDao = new PostRepositoryImplementation();
+                CommentRepositoryImplementation commentDao = new CommentRepositoryImplementation();
+                LikeRepositoryImplementation likeDao = new LikeRepositoryImplementation();
 
                 // Initialisation des services avec DAO injecté
                 UserServiceImplementation userService = new UserServiceImplementation(userDao);
