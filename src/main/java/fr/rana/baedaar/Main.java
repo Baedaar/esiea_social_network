@@ -20,7 +20,7 @@ public class Main {
             if (connection != null) {
                 System.out.println("Connexion réussie !");
 
-                // Initialisation du DAO
+                // Initialisation des DAO
                 UserRepositoryImplementation userDao = new UserRepositoryImplementation();
                 PostRepositoryImplementation postDao = new PostRepositoryImplementation();
                 CommentRepositoryImplementation commentDao = new CommentRepositoryImplementation();
@@ -68,10 +68,27 @@ public class Main {
                     Like postLike = likeService.addLike(createdPost, connectedUser);
                     System.out.println("Like ajouté avec succès sur le post.");
 
-                    // Étape 7 : liste de tt les posts
-                    System.out.println("Liste de tous les posts..." + postService.getAllPosts().toString());
+                    // Étape 7 : Liste de tous les posts
+                    System.out.println("Liste de tous les posts...");
+                    System.out.println(postService.getAllPostsContent());
 
+                    // Étape 8 : Mise à jour d'un post
+                    System.out.println("Mise à jour du post...");
+                    String updatedContent = "Voici mon post mis à jour !";
+                    createdPost.setContent(updatedContent);
+                    postService.updatePost(createdPost, updatedContent);
+                    System.out.println("Post mis à jour avec succès.");
 
+                    // Vérification de la mise à jour
+                    System.out.println("Contenu mis à jour : " + postService.getAllPostsContent());
+
+                    // Étape 9 : Suppression d'un post
+                    System.out.println("Suppression d'un post...");
+                    postService.deletePost(createdPost);
+                    System.out.println("Post supprimé avec succès.");
+
+                    // Vérification de la suppression
+                    System.out.println("Liste des posts après suppression : " + postService.getAllPostsContent());
                 } else {
                     System.out.println("Échec de la connexion.");
                 }

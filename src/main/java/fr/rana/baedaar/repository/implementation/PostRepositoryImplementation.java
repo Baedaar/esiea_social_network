@@ -57,7 +57,6 @@ public class PostRepositoryImplementation implements PostRepository {
                     User user = getUserById(userId);
 
                     List<Comment> comments = getCommentsByPostId(id);
-                    // Pass the post instance directly to likes, avoiding recursive calls
                     Post post = new Post(user, content, comments, new ArrayList<>());
                     List<Like> likes = getLikesByPostId(id, post);
                     post.setLikes(likes);
@@ -140,8 +139,6 @@ public class PostRepositoryImplementation implements PostRepository {
                     String userName = resultSet.getString("username");
                     String password = resultSet.getString("password");
                     User user = new User(userId, userName, password);
-
-                    // Instead of calling getPostById, pass the post ID directly
                     comments.add(new Comment(commentId, user, content, null, new ArrayList<>()));
                 }
             }
@@ -201,9 +198,9 @@ public class PostRepositoryImplementation implements PostRepository {
 
                     if (commentId != 0) {
                         Comment comment = getCommentById(commentId);
-                        likes.add(new Like(likeId, user, comment)); // Use Comment constructor
+                        likes.add(new Like(likeId, user, comment));
                     } else {
-                        likes.add(new Like(likeId, user, post)); // Use Post constructor
+                        likes.add(new Like(likeId, user, post));
                     }
                 }
             }
@@ -227,11 +224,8 @@ public class PostRepositoryImplementation implements PostRepository {
                     User user = getUserById(userId);
                     List<Comment> comments = getCommentsByPostId(id);
 
-                    // Create a temporary Post instance to use with likes
                     Post post = new Post(user, content, comments, new ArrayList<>());
                     List<Like> likes = getLikesByPostId(id, post);
-
-                    // Set likes to the post after fetching them
                     post.setLikes(likes);
 
                     posts.add(post);

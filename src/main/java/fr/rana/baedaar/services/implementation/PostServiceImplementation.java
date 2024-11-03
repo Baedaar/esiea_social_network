@@ -6,6 +6,7 @@ import fr.rana.baedaar.entities.User;
 import fr.rana.baedaar.services.PostService;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PostServiceImplementation implements PostService {
@@ -56,9 +57,14 @@ public class PostServiceImplementation implements PostService {
     }
 
     @Override
-    public List<Post> getAllPosts() {
+    public List<String> getAllPostsContent() {
         try {
-            return postRepository.getAllPosts();
+            List<Post> posts = postRepository.getAllPosts();
+            List<String> contents = new ArrayList<>();
+            for (Post post : posts) {
+                contents.add(post.getContent());
+            }
+            return contents;
         } catch (SQLException e) {
             e.printStackTrace();
         }

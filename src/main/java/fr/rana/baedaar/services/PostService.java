@@ -9,5 +9,5 @@ public interface PostService {
     Post createPost(User user, String content);
     Post updatePost(Post post, String newContent);
     void deletePost( Post post);
-    List<Post> getAllPosts();
+    List<String> getAllPostsContent();
 }
