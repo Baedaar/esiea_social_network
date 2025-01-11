@@ -1,9 +1,10 @@
-package fr.rana.baedaar.entities;
+package fr.rana.baedaar.domain.model;
 
 import java.util.List;
 
 public class Post {
 
+    private Long id;
     private User user;
     private String content;
     private List<Comment> comments;
@@ -16,6 +17,9 @@ public class Post {
         this.likes = likes;
     }
 
+    public Post() {
+    }
+
     public User getUser() {
         return user;
     }
@@ -26,6 +30,10 @@ public class Post {
 
     public String getContent() {
         return content;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public void setContent(String content) {
@@ -46,5 +54,9 @@ public class Post {
 
     public void setLikes(List<Like> likes) {
         this.likes = likes;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
