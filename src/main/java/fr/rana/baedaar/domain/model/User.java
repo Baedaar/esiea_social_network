@@ -10,22 +10,25 @@ public class User {
     private String password;
     private List<Post> posts;
     private List<Like> likes;
+    private List<Comment> comments;
 
     // Constructeur avec ID
-    public User(Long id, String userName, String password) {
+    public User(Long id,String userName, String password) {
         this.id = id;
         this.userName = userName;
         this.password = password;
         this.posts = new ArrayList<>();
         this.likes = new ArrayList<>();
+        this.comments = new ArrayList<>();
     }
 
     // Constructeur sans ID
-    public User(String userName, String password, List<Post> posts, List<Like> likes) {
+    public User(String userName, String password, List<Post> posts, List<Like> likes, List<Comment> comments) {
         this.userName = userName;
         this.password = password;
         this.posts = posts != null ? posts : new ArrayList<>();
         this.likes = likes != null ? likes : new ArrayList<>();
+        this.comments = comments != null ? comments : new ArrayList<>();
     }
 
     public User(String userName, String password) {
@@ -33,6 +36,7 @@ public class User {
         this.password = password;
         this.posts = new ArrayList<>();
         this.likes = new ArrayList<>();
+        this.comments = new ArrayList<>();
     }
 
     public User() {
@@ -76,5 +80,13 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -27,6 +28,9 @@ public class JpaUserEntity {
     @OneToMany
     private List<JpaLikeEntity> likes;
 
+    @OneToMany
+    private List<JpaCommentEntity> comments;
+
     // Constructeur avec ID
     public JpaUserEntity(Long id, String userName, String password) {
         this.id = id;
@@ -34,14 +38,16 @@ public class JpaUserEntity {
         this.password = password;
         this.posts = new ArrayList<>();
         this.likes = new ArrayList<>();
+        this.comments = new ArrayList<>();
     }
 
     // Constructeur sans ID
-    public JpaUserEntity(String userName, String password, List<JpaPostEntity> posts, List<JpaLikeEntity> likes) {
+    public JpaUserEntity(String userName, String password, List<JpaPostEntity> posts, List<JpaLikeEntity> likes, List<JpaCommentEntity> comments) {
         this.userName = userName;
         this.password = password;
         this.posts = posts;
         this.likes = likes;
+        this.comments = comments;
     }
 
     public JpaUserEntity(String userName, String password) {
@@ -49,6 +55,7 @@ public class JpaUserEntity {
         this.password = password;
         this.posts = new ArrayList<>();
         this.likes = new ArrayList<>();
+        this.comments = new ArrayList<>();
     }
 
     public JpaUserEntity() {
@@ -94,10 +101,30 @@ public class JpaUserEntity {
         this.likes = likes;
     }
 
+    public List<JpaCommentEntity> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<JpaCommentEntity> comments) {
+        this.comments = comments;
+    }
+
     public User toUser() {
         return new User(
                 this.userName,
-                this.password
+                this.password,
+                this.posts != null
+                        ? this.posts.stream()
+                        .map(JpaPostEntity::toPost)
+                        .toList() : new ArrayList<>(),
+                this.likes != null
+                        ? this.likes.stream()
+                        .map(JpaLikeEntity::toPostLike)
+                        .toList() : new ArrayList<>(),
+                this.comments != null
+                        ? this.comments.stream()
+                        .map(JpaCommentEntity::toComment)
+                        .toList() : new ArrayList<>()
         );
     }
 }

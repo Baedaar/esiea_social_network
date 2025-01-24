@@ -28,6 +28,13 @@ public class Comment {
         this(id, user, content, post, null);
     }
 
+    public Comment(User user, List<Like> likes, Post post, String content) {
+        this.user = user;
+        this.likes = likes;
+        this.post = post;
+        this.content = content;
+    }
+
     // Getters et Setters
     public Long getId() {
         return id;

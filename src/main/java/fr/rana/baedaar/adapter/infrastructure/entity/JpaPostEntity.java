@@ -1,11 +1,13 @@
 package fr.rana.baedaar.adapter.infrastructure.entity;
 
 
+import fr.rana.baedaar.domain.model.Post;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -30,6 +32,13 @@ public class JpaPostEntity {
         this.content = content;
         this.comments = comments;
         this.likes = likes;
+    }
+
+    public JpaPostEntity(JpaUserEntity user, String content) {
+        this.user = user;
+        this.content = content;
+        this.comments = new ArrayList<>();
+        this.likes = new ArrayList<>();
     }
 
     public JpaPostEntity() {
@@ -73,5 +82,20 @@ public class JpaPostEntity {
 
     public void setLikes(List<JpaLikeEntity> likes) {
         this.likes = likes;
+    }
+
+    public Post toPost() {
+        return new Post(
+                this.user.toUser(),
+                this.content,
+                this.comments != null
+                        ? this.comments.stream()
+                        .map(JpaCommentEntity::toComment)
+                        .toList() : new ArrayList<>(),
+                this.likes != null
+                ? this.likes.stream()
+                        .map(JpaLikeEntity::toPostLike)
+                        .toList() : new ArrayList<>()
+        );
     }
 }

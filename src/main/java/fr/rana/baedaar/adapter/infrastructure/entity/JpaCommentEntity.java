@@ -1,12 +1,15 @@
 package fr.rana.baedaar.adapter.infrastructure.entity;
 
 
+import fr.rana.baedaar.domain.model.Comment;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class JpaCommentEntity {
@@ -68,4 +71,18 @@ public class JpaCommentEntity {
     public void setContent(String content) {
         this.content = content;
     }
+
+    public Comment toComment() {
+        return new Comment(
+                this.user.toUser(),
+                this.likes != null
+                        ? this.likes.stream()
+                        .map(JpaLikeEntity::toCommentLike)
+                        .collect(Collectors.toList())
+                        : new ArrayList<>(),
+                this.post.toPost(),
+                this.content
+        );
+    }
+
 }
