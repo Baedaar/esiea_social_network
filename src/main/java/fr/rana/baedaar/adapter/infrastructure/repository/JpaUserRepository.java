@@ -5,6 +5,7 @@ import fr.rana.baedaar.domain.model.User;
 import fr.rana.baedaar.domain.repository.UserRepository;
 import org.springframework.stereotype.Repository;
 
+
 @Repository
 public class JpaUserRepository implements UserRepository {
 
@@ -18,14 +19,16 @@ public class JpaUserRepository implements UserRepository {
     public User save(User user) {
         JpaUserEntity userEntity = new JpaUserEntity();
         userEntity.setUserName(user.getUserName());
-        userEntity.setPassword(user.getUserName());
+        userEntity.setPassword(user.getPassword());
         JpaUserEntity savedEntity = repository.save(userEntity);
         return savedEntity.toUser();
     }
 
     @Override
     public User connection(String username, String password) {
-        return null;
+        return repository.findByUserNameAndPassword(username, password)
+                .map(JpaUserEntity::toUser)
+                .orElseThrow(() -> new RuntimeException("Invalid username or password"));
     }
 
     @Override
@@ -40,6 +43,5 @@ public class JpaUserRepository implements UserRepository {
 
     @Override
     public void deleteUser(String username, String password) {
-
     }
 }

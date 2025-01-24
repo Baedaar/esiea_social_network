@@ -1,5 +1,6 @@
 package fr.rana.baedaar.adapter.infrastructure.entity;
 
+import fr.rana.baedaar.domain.model.Like;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -83,5 +84,18 @@ public class JpaLikeEntity {
 
     public void setPost(JpaPostEntity post) {
         this.post = post;
+    }
+
+    public Like toCommentLike() {
+        return new Like(
+                this.user.toUser(),
+                this.comment.toComment()
+        );
+    }
+    public Like toPostLike() {
+        return new Like(
+                this.user.toUser(),
+                this.post.toPost()
+        );
     }
 }

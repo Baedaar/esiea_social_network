@@ -3,7 +3,6 @@ package fr.rana.baedaar.application.dto;
 import java.util.List;
 
 public class UserDto {
-    private Long id;
     private String userName;
     private String password;
     private List<PostDto> posts;
@@ -14,8 +13,7 @@ public class UserDto {
     }
 
     // Constructeur avec tous les champs
-    public UserDto(Long id, String userName, String password, List<PostDto> posts, List<LikeDto> likes) {
-        this.id = id;
+    public UserDto(String userName, String password, List<PostDto> posts, List<LikeDto> likes) {
         this.userName = userName;
         this.password = password;
         this.posts = posts;
@@ -27,13 +25,6 @@ public class UserDto {
         this.password = password;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getUserName() {
         return userName;

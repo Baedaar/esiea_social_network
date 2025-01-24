@@ -13,7 +13,6 @@ public class UserMapper {
         }
 
         return new UserDto(
-                user.getId(),
                 user.getUserName(),
                 user.getPassword(),
                 user.getPosts() != null
@@ -36,7 +35,6 @@ public class UserMapper {
         }
 
         User user = new User();
-        user.setId(userDTO.getId());
         user.setUserName(userDTO.getUserName());
         user.setPassword(userDTO.getPassword());
         user.setPosts(

@@ -4,8 +4,7 @@ import java.util.List;
 
 public class PostDto {
 
-    private Long id;
-    private String userName; // Pour simplifier, on inclut le nom d'utilisateur de l'auteur
+    private String userName;
     private String content;
     private List<CommentDto> comments;
     private List<LikeDto> likes;
@@ -15,8 +14,7 @@ public class PostDto {
     }
 
     // Constructeur avec tous les champs
-    public PostDto(Long id, String userName, String content, List<CommentDto> comments, List<LikeDto> likes) {
-        this.id = id;
+    public PostDto(String userName, String content, List<CommentDto> comments, List<LikeDto> likes) {
         this.userName = userName;
         this.content = content;
         this.comments = comments;
@@ -24,13 +22,6 @@ public class PostDto {
     }
 
     // Getters et setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getUserName() {
         return userName;
