@@ -1,22 +1,26 @@
 package fr.rana.baedaar.adapter.infrastructure.entity;
 
 import fr.rana.baedaar.domain.model.Like;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "likes")
 public class JpaLikeEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private JpaUserEntity user;
 
     @ManyToOne
+    @JoinColumn(name = "comment_id")
     private JpaCommentEntity comment;
 
     @ManyToOne
+    @JoinColumn(name = "post_id")
     private JpaPostEntity post;
 
     // Constructeur pour un like sur un post (sans ID)

@@ -18,13 +18,14 @@ public class UserService {
     }
 
     public User createUser(User user) {
+        User savedUser = userRepository.save(user);
         EventUserCreated eventUserCreated = new EventUserCreated(
-                user.getId(),
-                user.getUserName(),
-                user.getPassword()
+                savedUser.getId(),
+                savedUser.getUserName(),
+                savedUser.getPassword()
         );
         eventPublisher.publishEvent(eventUserCreated);
-        return userRepository.save(user);
+        return savedUser;
     }
 
     public User connection(String username, String password) {

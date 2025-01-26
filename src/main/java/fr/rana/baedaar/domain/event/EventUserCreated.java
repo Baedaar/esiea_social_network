@@ -1,6 +1,9 @@
 package fr.rana.baedaar.domain.event;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class EventUserCreated {
 
     long userId;
@@ -11,6 +14,9 @@ public class EventUserCreated {
         this.userId = userId;
         this.username = username;
         this.password = password;
+    }
+
+    public EventUserCreated() {
     }
 
     public long getUserId() {
@@ -35,5 +41,16 @@ public class EventUserCreated {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        try {
+            // Convertir l'objet en JSON pour Kafka
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Failed to serialize event", e);
+        }
     }
 }

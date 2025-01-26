@@ -14,7 +14,6 @@ public class PostMapper {
         }
 
         return new PostDto(
-                post.getId(),
                 post.getUser() != null ? post.getUser().getUserName() : null,
                 post.getContent(),
                 post.getComments() != null
@@ -37,7 +36,6 @@ public class PostMapper {
         }
 
         Post post = new Post();
-        post.setId(postDTO.getId());
         post.setContent(postDTO.getContent());
         post.setComments(
                 postDTO.getComments() != null

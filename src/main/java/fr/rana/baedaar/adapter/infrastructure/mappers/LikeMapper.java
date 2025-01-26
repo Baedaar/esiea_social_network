@@ -12,7 +12,6 @@ public class LikeMapper {
         }
 
         return new LikeDto(
-                like.getId(),
                 like.getUser() != null ? like.getUser().getUserName() : null,
                 like.getPost() != null ? like.getPost().getId() : null,
                 like.getComment() != null ? like.getComment().getId() : null
@@ -23,10 +22,7 @@ public class LikeMapper {
         if (likeDTO == null) {
             return null;
         }
-
-        Like like = new Like();
-        like.setId(likeDTO.getId());
-        return like;
+        return new Like();
     }
 
 }

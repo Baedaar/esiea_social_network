@@ -2,28 +2,30 @@ package fr.rana.baedaar.adapter.infrastructure.entity;
 
 
 import fr.rana.baedaar.domain.model.Comment;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import fr.rana.baedaar.domain.model.User;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
+@Table(name = "comments")
 public class JpaCommentEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private JpaUserEntity user;
 
-    @OneToMany
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<JpaLikeEntity> likes;
 
     @ManyToOne
+    @JoinColumn(name = "post_id")
     private JpaPostEntity post;
 
     private String content;
@@ -74,13 +76,15 @@ public class JpaCommentEntity {
 
     public Comment toComment() {
         return new Comment(
-                this.user.toUser(),
+                this.user != null
+                        ? new User(this.user.getId(), this.user.getUserName(), null, null, null, null)
+                        : null,
                 this.likes != null
                         ? this.likes.stream()
                         .map(JpaLikeEntity::toCommentLike)
                         .collect(Collectors.toList())
                         : new ArrayList<>(),
-                this.post.toPost(),
+                null,
                 this.content
         );
     }

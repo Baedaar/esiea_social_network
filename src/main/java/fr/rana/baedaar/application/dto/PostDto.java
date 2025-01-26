@@ -1,12 +1,22 @@
 package fr.rana.baedaar.application.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.List;
 
+@Schema(description = "Post creation request")
 public class PostDto {
 
+    @Schema(example = "user@example.com")
     private String userName;
+
+    @Schema(example = "Il fait beau aujourd'hui")
     private String content;
+
+    @Schema(hidden = true)
     private List<CommentDto> comments;
+
+    @Schema(hidden = true)
     private List<LikeDto> likes;
 
     // Constructeur par défaut

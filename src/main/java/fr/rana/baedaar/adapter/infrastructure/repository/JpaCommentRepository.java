@@ -1,7 +1,7 @@
 package fr.rana.baedaar.adapter.infrastructure.repository;
 
+import fr.rana.baedaar.adapter.infrastructure.entity.JpaCommentEntity;
 import fr.rana.baedaar.domain.model.Comment;
-import fr.rana.baedaar.domain.model.Post;
 import fr.rana.baedaar.domain.repository.CommentRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,14 +10,27 @@ import java.util.Optional;
 
 @Repository
 public class JpaCommentRepository implements CommentRepository {
-    @Override
-    public Comment save(Comment comment) {
-        return null;
+
+    private final SpringUserRepository userRepository;
+    private final SpringCommentRepository commentRepository;
+    private final SpringPostRepository postRepository;
+
+    public JpaCommentRepository(SpringUserRepository userRepository, SpringCommentRepository commentRepository, SpringPostRepository postRepository) {
+        this.userRepository = userRepository;
+        this.commentRepository = commentRepository;
+        this.postRepository = postRepository;
     }
 
     @Override
-    public Comment createComment(String content, Post post) {
-        return null;
+    public Comment save(String email, Long postId, Comment comment) {
+        JpaCommentEntity commentEntity = new JpaCommentEntity();
+        commentEntity.setUser(userRepository.findByUserName(email)
+                .orElseThrow(() -> new RuntimeException("Invalid username")));
+        commentEntity.setPost(postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Invalid postId")));
+        commentEntity.setContent(comment.getContent());
+        commentRepository.save(commentEntity);
+        return commentEntity.toComment();
     }
 
     @Override
