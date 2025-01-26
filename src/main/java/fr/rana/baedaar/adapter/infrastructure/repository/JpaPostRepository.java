@@ -1,27 +1,29 @@
 package fr.rana.baedaar.adapter.infrastructure.repository;
 
 import fr.rana.baedaar.adapter.infrastructure.entity.JpaPostEntity;
-import fr.rana.baedaar.adapter.infrastructure.entity.JpaUserEntity;
+import fr.rana.baedaar.adapter.infrastructure.mappers.PostMapper;
 import fr.rana.baedaar.domain.model.Post;
-import fr.rana.baedaar.domain.model.User;
 import fr.rana.baedaar.domain.repository.PostRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class JpaPostRepository implements PostRepository {
 
     private final SpringPostRepository repository;
+    private final SpringUserRepository userRepository;
 
-    public JpaPostRepository(SpringPostRepository repository) {
+    public JpaPostRepository(SpringPostRepository repository, SpringUserRepository userRepository) {
         this.repository = repository;
+        this.userRepository = userRepository;
     }
 
     @Override
     public Post save(String username, Post post) {
         JpaPostEntity postEntity = new JpaPostEntity();
-        postEntity.setUser(repository.findByUserUserName(username)
+        postEntity.setUser(userRepository.findByUserName(username)
                 .orElseThrow(() -> new RuntimeException("Invalid username")));
         postEntity.setContent(post.getContent());
         repository.save(postEntity);
@@ -35,7 +37,9 @@ public class JpaPostRepository implements PostRepository {
 
     @Override
     public List<Post> findAll() {
-        return null;
+        return repository.findAll().stream()
+                .map(JpaPostEntity::toPost)
+                .collect(Collectors.toList());
     }
 
     @Override

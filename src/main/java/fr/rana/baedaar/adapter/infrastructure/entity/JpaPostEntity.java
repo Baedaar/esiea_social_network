@@ -1,30 +1,32 @@
 package fr.rana.baedaar.adapter.infrastructure.entity;
 
 
+import fr.rana.baedaar.domain.model.Comment;
 import fr.rana.baedaar.domain.model.Post;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import fr.rana.baedaar.domain.model.User;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "posts")
 public class JpaPostEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private JpaUserEntity user;
 
     private String content;
 
-    @OneToMany
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<JpaCommentEntity> comments;
 
-    @OneToMany
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<JpaLikeEntity> likes;
 
     public JpaPostEntity(JpaUserEntity user, String content, List<JpaCommentEntity> comments, List<JpaLikeEntity> likes) {
@@ -86,16 +88,25 @@ public class JpaPostEntity {
 
     public Post toPost() {
         return new Post(
-                this.user.toUser(),
+                new User(this.user.getId(), this.user.getUserName(), this.user.getPassword(), null, null, null),
                 this.content,
                 this.comments != null
                         ? this.comments.stream()
-                        .map(JpaCommentEntity::toComment)
-                        .toList() : new ArrayList<>(),
+                        .map(comment -> new Comment(
+                                comment.getUser() != null
+                                        ? new User(comment.getUser().getId(), comment.getUser().getUserName(), null, null, null, null)
+                                        : null,
+                                null,
+                                null,
+                                comment.getContent()
+                        ))
+                        .toList()
+                        : new ArrayList<>(),
                 this.likes != null
-                ? this.likes.stream()
+                        ? this.likes.stream()
                         .map(JpaLikeEntity::toPostLike)
-                        .toList() : new ArrayList<>()
+                        .toList()
+                        : new ArrayList<>()
         );
     }
 }

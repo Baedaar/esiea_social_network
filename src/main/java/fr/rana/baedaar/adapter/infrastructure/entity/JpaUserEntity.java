@@ -22,13 +22,13 @@ public class JpaUserEntity {
     @Column(name = "password")
     private String password;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<JpaPostEntity> posts;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<JpaLikeEntity> likes;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<JpaCommentEntity> comments;
 
     // Constructeur avec ID
@@ -111,20 +111,35 @@ public class JpaUserEntity {
 
     public User toUser() {
         return new User(
+                this.id,
+                this.userName,
+                this.password,
+                null,
+                null,
+                null
+        );
+    }
+
+    public User toUserWithDetails() {
+        return new User(
+                this.id,
                 this.userName,
                 this.password,
                 this.posts != null
                         ? this.posts.stream()
                         .map(JpaPostEntity::toPost)
-                        .toList() : new ArrayList<>(),
+                        .toList()
+                        : new ArrayList<>(),
                 this.likes != null
                         ? this.likes.stream()
                         .map(JpaLikeEntity::toPostLike)
-                        .toList() : new ArrayList<>(),
+                        .toList()
+                        : new ArrayList<>(),
                 this.comments != null
                         ? this.comments.stream()
                         .map(JpaCommentEntity::toComment)
-                        .toList() : new ArrayList<>()
+                        .toList()
+                        : new ArrayList<>()
         );
     }
 }

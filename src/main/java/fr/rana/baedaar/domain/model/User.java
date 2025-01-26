@@ -22,6 +22,15 @@ public class User {
         this.comments = new ArrayList<>();
     }
 
+    public User(Long id, String userName, String password, List<Post> posts, List<Like> likes, List<Comment> comments) {
+        this.id = id;
+        this.userName = userName;
+        this.password = password;
+        this.posts = posts;
+        this.likes = likes;
+        this.comments = comments;
+    }
+
     // Constructeur sans ID
     public User(String userName, String password, List<Post> posts, List<Like> likes, List<Comment> comments) {
         this.userName = userName;

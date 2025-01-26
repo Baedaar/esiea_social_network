@@ -1,11 +1,22 @@
 package fr.rana.baedaar.application.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.List;
 
+@Schema(description = "User creation request")
 public class UserDto {
-    private String userName;
+
+    @Schema(example = "user@example.com")
+    private String email;
+
+    @Schema(example = "password123", writeOnly = true)
     private String password;
+
+    @Schema(hidden = true)
     private List<PostDto> posts;
+
+    @Schema(hidden = true)
     private List<LikeDto> likes;
 
     // Constructeur par défaut
@@ -13,25 +24,25 @@ public class UserDto {
     }
 
     // Constructeur avec tous les champs
-    public UserDto(String userName, String password, List<PostDto> posts, List<LikeDto> likes) {
-        this.userName = userName;
+    public UserDto(String email, String password, List<PostDto> posts, List<LikeDto> likes) {
+        this.email = email;
         this.password = password;
         this.posts = posts;
         this.likes = likes;
     }
 
-    public UserDto(String userName, String password) {
-        this.userName = userName;
+    public UserDto(String email, String password) {
+        this.email = email;
         this.password = password;
     }
 
 
-    public String getUserName() {
-        return userName;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public List<PostDto> getPosts() {

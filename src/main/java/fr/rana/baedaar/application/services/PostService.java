@@ -1,17 +1,22 @@
 package fr.rana.baedaar.application.services;
 
 import fr.rana.baedaar.domain.model.Post;
-import fr.rana.baedaar.domain.model.User;
 import fr.rana.baedaar.domain.repository.PostRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PostService {
     private final PostRepository repository;
 
 
-    public Post createPost(String username, Post post) {
-        return repository.save(username, post);
+    public Post createPost(String email, Post post) {
+        return repository.save(email, post);
+    }
+
+    public List<Post> findAll() {
+        return repository.findAll();
     }
 
 

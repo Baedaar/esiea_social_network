@@ -1,7 +1,6 @@
 package fr.rana.baedaar.domain.repository;
 
 import fr.rana.baedaar.domain.model.Post;
-import fr.rana.baedaar.domain.model.User;
 
 import java.util.List;
 

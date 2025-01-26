@@ -35,7 +35,7 @@ public class UserMapper {
         }
 
         User user = new User();
-        user.setUserName(userDTO.getUserName());
+        user.setUserName(userDTO.getEmail());
         user.setPassword(userDTO.getPassword());
         user.setPosts(
                 userDTO.getPosts() != null

@@ -25,8 +25,8 @@ public class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public User connection(String username, String password) {
-        return repository.findByUserNameAndPassword(username, password)
+    public User connection(String email, String password) {
+        return repository.findByUserNameAndPassword(email, password)
                 .map(JpaUserEntity::toUser)
                 .orElseThrow(() -> new RuntimeException("Invalid username or password"));
     }
